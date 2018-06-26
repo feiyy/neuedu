@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.0.js"></script>
+<script>
+    $(function(){
+    	
+    	//注册提交按钮的点击事件
+    	$("#btn_upload").click(function(){
+    		
+    		//1. 获得整个表单。
+    		var formData = new FormData(document.getElementById("myform"));
+    		formData.append("username","feiyy");
+    		//2. 发送ajax请求
+    		$.ajax({
+    			url:"test/uploadajax",
+    			type:"post",
+    			data:formData,
+    			processData:false,
+    			contentType:false,
+    			dataType:"json",
+    			success:function(data)
+    			{
+    				alert(data.result);
+    			}
+    		});
+    	});
+    	
+    	
+    })
+    
+
+</script>
+</head>
+<body>
+
+<!-- 1.method=post, 2 enctype="multipart/form-data" 二进制提交 -->
+<form id="myform" method="post" enctype="multipart/form-data">
+   <input type="text" name="username"/>
+   <input type="password" name="pwd"/>
+   <input type="file" name="upload"/>
+   <button id="btn_upload" type="button">提交</button>
+</form>
+
+</body>
+</html>

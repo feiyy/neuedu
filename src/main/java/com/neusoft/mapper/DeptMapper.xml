@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neusoft.mapper.DeptMapper">
+	<!-- 配置   (1对多)   关系的映射类型 -->
+	<resultMap type="com.neusoft.po.Dept" id="dept_emp_map">
+		<id property="deptno" column="deptno"/>
+		<result property="dname" column="dname"/>
+		<result property="loc" column="loc"/>
+		<collection property="empList" ofType="com.neusoft.po.Emp">
+			<id property="empno" column="empno" />
+			<result property="ename" column="ename" />
+			<result property="comm" column="comm" />
+			<result property="hiredate" column="hiredate" />
+			<result property="job" column="job" />
+			<result property="mgr" column="mgr" />
+			<result property="sal" column="sal" />
+			<result property="deptno" column="deptno" />
+		</collection>
+	</resultMap>
+	<select id="findDeptByDeptno" parameterType="int"  resultMap="dept_emp_map" >
+		select emp.*,dept.dname,dept.loc 
+		from emp right join dept 
+		on emp.deptno=dept.deptno 
+		where dept.deptno=#{deptno}
+	</select>
+</mapper>
+<!--  
+	<select id="findCount"  resultType="int" >
+		select count(*) from message 
+	</select>
+	<select id="findNameById" parameterType="int" resultType="java.lang.String" >
+		select name from message where id=#{id}
+	</select>
+	
+	<select id="findMessageById" parameterType="int" resultType="com.neusoft.bean.Message">
+		select * from message where id=#{id}
+	</select>
+	<select id="findMessageById2" parameterType="int" resultType="com.neusoft.bean.Message">
+		select id,name, to_char(time,'yyyy-MM-dd hh:mi:ss') time  from message where id=#{id}
+	</select>
+	
+	<select id="findAll" resultType="com.neusoft.bean.Message">
+		select * from message 
+	</select>
+	<select id="findAll2" resultType="com.neusoft.bean.Message">
+		select id,name,title from message 
+	</select>
+	<select id="findMessageByTj" parameterType="com.neusoft.bean.Message" resultType="com.neusoft.bean.Message" >
+		select * from message where name =#{name} and id > #{id}
+	</select>
+	
+	<insert id="addMessage" parameterType="com.neusoft.bean.Message">
+		insert into message (id,name,title,time,contxt) values (seq_message.nextval,#{name},#{title},sysdate,#{contxt})
+	</insert>
+	
+	<select id="getUnameByID" parameterType="int" resultType="java.lang.String" >
+		select username from userinfo where id=#{id}
+	</select>
+	<select id="getCount"  resultType="int" >
+		select count(*) from userinfo 
+	</select>
+	<select id="getUserinfoById" parameterType="int" resultType="com.neusoft.bean.Userinfo">
+		select * from userinfo where id=#{id}
+	</select>
+	<select id="getUserinfoById2" parameterType="int" resultType="com.neusoft.bean.Userinfo">
+		select username,pwd from userinfo where id=#{id}
+	</select>
+	<select id="findAll" resultType="com.neusoft.bean.Userinfo">
+		select * from userinfo 
+	</select>
+	<select id="findUserByVo" parameterType="com.neusoft.vo.LoginVO" resultType="com.neusoft.bean.Userinfo" >
+		select * from userinfo where username=#{userName} and pwd=#{pwd}
+	</select>
+	
+	<insert id="addUserinfo" parameterType="com.neusoft.bean.Userinfo">
+		insert into userinfo(id,username,pwd)  values (#{id} ,#{username}  , #{pwd})
+	</insert>
+	 -->
+

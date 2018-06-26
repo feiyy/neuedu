@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<!-- 1.method=post, 2 enctype="multipart/form-data" 二进制提交 -->
+<form action="test/upload" method="post" enctype="multipart/form-data">
+   <input type="text" name="username"/>
+   <input type="password" name="pwd"/>
+   <input type="file" name="upload" multiple/>
+   <button type="submit">提交</button>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.0.js"></script>
+<script>
+   $(function(){
+	   
+	   //注册按钮的点击事件
+	   $("#btn_submit").click(function(){
+		   
+		   //1. get 4 values
+		   var ename = $("#ename").val();
+		   var job = $("#job").val();
+		   var sal = $("#sal").val();
+		   var deptno = $("#deptno").val();
+		   
+		   //2. send ajax request		   
+		   $.ajax({
+			   url:"test/addemp",
+			   type:"post",
+			   data:{ename:ename,job:job,sal:sal,deptno:deptno},
+			   dataType:"json",
+			   success:function(data)
+			   {
+				   //console.log(data);
+				   if(data.result)
+				   {
+					   alert("保存成功");
+				   }
+				   else
+				   {
+					   alert("保存失败");
+				   }
+			   }
+		   });
+		   
+	   });
+	   
+	   
+   })
+   
+</script>
+</head>
+<body>
+
+   <form>
+   
+     <input id="ename" type="text" placeholder="请输入用户名"/> <br>
+     <input id="job" type="text" placeholder="请输入工作"/> <br>
+     <input id="sal" type="text" placeholder="请输入薪水"/> <br>
+     <input id="deptno" type="text" placeholder="请输入部门编号"/> <br>
+     
+     <button id="btn_submit" type="button">提交</button>
+       
+   </form>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.0.js"></script>
+<script>
+   $(function(){
+	   
+	   //1. send ajax request
+	   /*
+	      相对  localhost:8089/ssmPro2/getEmp.html -> localhost:8089/ssmPro2/test/ajax.action "test/ajax.action"
+	      绝对 /ssmPro2/test/ajax.action
+	   */
+	   
+	   $.ajax({
+		   url:"test/ajax.action",
+		   success:function(data)
+		   {
+			   for(var i=0; i<data.length;i++)
+			   {
+				   //每一条记录生成一个tr
+				   var tr = '<tr>';
+				   tr+='<td>'+data[i].empno+'</td>';
+				   tr+='<td>'+data[i].ename+'</td>';
+				   tr+='<td>'+data[i].sal+'</td>';
+				   tr+='<td>'+data[i].hiredate+'</td>';
+				   tr+='</tr>';
+				   
+				   $("#tab").append(tr);
+				   
+			   }
+		   }		   
+	   })
+	   	   
+   })
+   
+</script>
+</head>
+<body>
+
+  <table id="tab">
+     <tr>
+        <th>员工编号</th>
+        <th>员工姓名</th>
+        <th>员工薪水</th>
+        <th>入职日期</th>
+     </tr>
+  </table>
+
+</body>
+</html>

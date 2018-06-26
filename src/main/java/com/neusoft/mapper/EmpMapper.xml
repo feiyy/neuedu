@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neusoft.mapper.EmpMapper">
+
+		<!-- 配置 (多对1) 关系的映射类型 -->
+	<resultMap type="com.neusoft.po.Emp" id="emp_dept_map">
+		<id property="empno" column="empno" />
+		<result property="ename" column="ename" />
+		<result property="comm" column="comm" />
+		<result property="hiredate" column="hiredate" />
+		<result property="job" column="job" />
+		<result property="mgr" column="mgr" />
+		<result property="sal" column="sal" />
+		<result property="deptno" column="deptno" />
+		<association property="dept" javaType="com.neusoft.po.Dept">
+			<id property="deptno" column="deptno" />
+			<result property="dname" column="dname" />
+			<result property="loc" column="loc" />
+		</association>
+	</resultMap>
+
+	<select id="findAll"  resultType="com.neusoft.po.Emp">
+		select * from emp order by sal desc
+	</select>
+	
+	<select id="findEmpDeptAll"  resultType="com.neusoft.vo.EmpDeptVO">
+		select emp.*,dept.dname,dept.loc 
+		from emp left join dept 
+		on emp.deptno=dept.deptno
+	</select>
+	
+	<select id="findEmpDeptAll2"  resultMap="emp_dept_map">
+		select emp.*,dept.dname,dept.loc 
+		from emp left join dept 
+		on emp.deptno=dept.deptno
+	</select>
+
+	<select id="findEmpLike1" parameterType="Map"  resultMap="emp_dept_map">
+		select emp.*,dept.dname,dept.loc 
+		from emp left join dept 
+		on emp.deptno=dept.deptno 
+   		where ename like #{ename} and dept.deptno=#{deptno}
+	</select>
+	<select id="findEmpLike2" parameterType="Map"  resultMap="emp_dept_map">
+		select emp.*,dept.dname,dept.loc 
+		from emp left join dept 
+		on emp.deptno=dept.deptno 
+   		where ename like '%${ename}%' and dept.deptno=#{deptno}
+	</select>
+	<select id="findEmpLikeOther" parameterType="Map"  resultMap="emp_dept_map">
+    	select emp.*,dept.dname,dept.loc 
+		from emp left join dept 
+		on emp.deptno=dept.deptno 
+		where 1=1
+		
+		<if test="empno != null">
+			and empno=#{empno}
+		</if>
+		<if test="ename != null">
+			and ename like '%${ename}%'
+		</if>
+		<if test="sal != null">
+			and sal > #{sal}
+		</if>
+		<if test="deptno != null">
+			and emp.deptno = #{deptno}
+		</if>		
+		
+	</select>
+	
+	<insert id="addEmp" parameterType="com.neusoft.po.Emp">
+	    insert into emp values(seq_emp.nextval,#{ename},#{job},#{mgr},sysdate,#{sal},#{comm},#{deptno})
+	</insert>
+
+</mapper>
+<!--  
+	<select id="findCount"  resultType="int" >
+		select count(*) from message 
+	</select>
+	<select id="findNameById" parameterType="int" resultType="java.lang.String" >
+		select name from message where id=#{id}
+	</select>
+	
+	<select id="findMessageById" parameterType="int" resultType="com.neusoft.bean.Message">
+		select * from message where id=#{id}
+	</select>
+	<select id="findMessageById2" parameterType="int" resultType="com.neusoft.bean.Message">
+		select id,name, to_char(time,'yyyy-MM-dd hh:mi:ss') time  from message where id=#{id}
+	</select>
+	
+	<select id="findAll" resultType="com.neusoft.bean.Message">
+		select * from message 
+	</select>
+	<select id="findAll2" resultType="com.neusoft.bean.Message">
+		select id,name,title from message 
+	</select>
+	<select id="findMessageByTj" parameterType="com.neusoft.bean.Message" resultType="com.neusoft.bean.Message" >
+		select * from message where name =#{name} and id > #{id}
+	</select>
+	
+	<insert id="addMessage" parameterType="com.neusoft.bean.Message">
+		insert into message (id,name,title,time,contxt) values (seq_message.nextval,#{name},#{title},sysdate,#{contxt})
+	</insert>
+	
+	<select id="getUnameByID" parameterType="int" resultType="java.lang.String" >
+		select username from userinfo where id=#{id}
+	</select>
+	<select id="getCount"  resultType="int" >
+		select count(*) from userinfo 
+	</select>
+	<select id="getUserinfoById" parameterType="int" resultType="com.neusoft.bean.Userinfo">
+		select * from userinfo where id=#{id}
+	</select>
+	<select id="getUserinfoById2" parameterType="int" resultType="com.neusoft.bean.Userinfo">
+		select username,pwd from userinfo where id=#{id}
+	</select>
+	<select id="findAll" resultType="com.neusoft.bean.Userinfo">
+		select * from userinfo 
+	</select>
+	<select id="findUserByVo" parameterType="com.neusoft.vo.LoginVO" resultType="com.neusoft.bean.Userinfo" >
+		select * from userinfo where username=#{userName} and pwd=#{pwd}
+	</select>
+	
+	<insert id="addUserinfo" parameterType="com.neusoft.bean.Userinfo">
+		insert into userinfo(id,username,pwd)  values (#{id} ,#{username}  , #{pwd})
+	</insert>
+	 -->
+
